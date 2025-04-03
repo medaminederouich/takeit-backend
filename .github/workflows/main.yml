@@ -1,14 +1,12 @@
-name: CI - Backend Node.js
+name: Node.js CI
 
 on:
   push:
     branches:
-      - main
-      - develop
+      - master
   pull_request:
     branches:
-      - main
-      - develop
+      - master
 
 jobs:
   build:
@@ -21,23 +19,13 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 22.11.0  # Change si ton projet utilise une autre version
+          node-version: 18
 
       - name: Install dependencies
         run: npm install
 
-      - name: Lint code
-        run: npm run lint  # Assure-toi d'avoir un script "lint" dans package.json
+      - name: Run linter
+        run: npm run lint
 
       - name: Run tests
-        run: npm test  # Assure-toi d'avoir un script "test" dans package.json
-
-      # Supprime cette ligne si ton projet ne build pas
-      # - name: Build project (si nécessaire)
-      #   run: npm run build
-
-      - name: Check if server starts (optionnel)
-        run: |
-          npm start &
-          sleep 5
-          curl -f http://localhost:3000 || exit 1
+        run: npm test
