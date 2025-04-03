@@ -21,7 +21,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 18  # Change si ton projet utilise une autre version
+          node-version: 22.11.0  # Change si ton projet utilise une autre version
 
       - name: Install dependencies
         run: npm install
@@ -32,8 +32,9 @@ jobs:
       - name: Run tests
         run: npm test  # Assure-toi d'avoir un script "test" dans package.json
 
-      - name: Build project (si nécessaire)
-        run: npm run build  # Supprime cette ligne si ton projet ne build pas
+      # Supprime cette ligne si ton projet ne build pas
+      # - name: Build project (si nécessaire)
+      #   run: npm run build
 
       - name: Check if server starts (optionnel)
         run: |
