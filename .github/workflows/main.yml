@@ -1,12 +1,42 @@
-name: CI
-on: [push, pull_request]
+name: CI - Backend Node.js
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+    branches:
+      - main
+      - develop
 
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18  # Change si ton projet utilise une autre version
+
       - name: Install dependencies
         run: npm install
+
+      - name: Lint code
+        run: npm run lint  # Assure-toi d'avoir un script "lint" dans package.json
+
       - name: Run tests
-        run: npm test
+        run: npm test  # Assure-toi d'avoir un script "test" dans package.json
+
+      - name: Build project (si nécessaire)
+        run: npm run build  # Supprime cette ligne si ton projet ne build pas
+
+      - name: Check if server starts (optionnel)
+        run: |
+          npm start &
+          sleep 5
+          curl -f http://localhost:3000 || exit 1
